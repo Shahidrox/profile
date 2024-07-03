@@ -1,6 +1,82 @@
 $(window).on('load', function() {
-    "use strict";   
+    "use strict";
 
+    /*==============================================
+    Language change
+    ==============================================*/
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+          let date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+          expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+    $('#language-dropdown .dropdown-item').click(function(e) {
+      e.preventDefault();
+      var selectedLanguage = $(this).attr('data-lang');
+      setCookie('language', selectedLanguage, 30);
+      location.reload();
+    });
+
+    // Function to load JSON file asynchronously
+    function loadJSON(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.overrideMimeType("application/json");
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          callback(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.send(null);
+    }
+
+    function translate_menu(preferredLanguage){
+      let file = '../locales/'+preferredLanguage+'.json'
+      loadJSON(file, function (json) {
+        i18next.use(i18nextBrowserLanguageDetector).init({
+          debug: true,
+          fallbackLng: 'us',
+          resources: json
+        }, (err, t) => {
+          if (err) return console.error(err);
+          jqueryI18next.init(i18next, $, { useOptionsAttr: true });
+          i18next.changeLanguage(preferredLanguage)
+          $('html').localize();
+        });
+      })
+    }
+
+    function set_language_ui(preferredLanguage){
+      var eliment = $('#language-dropdown .dropdown-item[data-lang="' + preferredLanguage + '"]')
+      eliment.addClass('active');
+      $('#language-name').text(eliment.text())
+      $('#language-icon').attr('title', preferredLanguage);
+      $('#language-icon').removeClass();
+      $('#language-icon').addClass('fi fi-'+ preferredLanguage);
+
+      translate_menu(preferredLanguage)
+    }
+
+    var preferredLanguage = getCookie('language');
+    if (preferredLanguage) {
+      set_language_ui(preferredLanguage)
+    }else{
+      set_language_ui('us')
+    }
     /*=========================================================================
         Menu Clicks
     =========================================================================*/
