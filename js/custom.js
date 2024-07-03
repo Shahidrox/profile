@@ -45,7 +45,7 @@ $(window).on('load', function() {
     }
 
     function translate_menu(preferredLanguage){
-      let file = '../locales/'+preferredLanguage+'.json'
+      let file = 'locales/'+preferredLanguage+'.json'
       loadJSON(file, function (json) {
         i18next.use(i18nextBrowserLanguageDetector).init({
           debug: true,
