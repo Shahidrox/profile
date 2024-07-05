@@ -42,7 +42,7 @@ $(window).on('load', function() {
                   "ansible": "Ansible（オープンソースのIT自動化エンジン）",
                   "ansible_desc": "Ansibleの強力な機能を活用して、インフラ管理プロセスを効率化し、さまざまな環境でタスクを自動化します。",
                   "what_do_i_do": "私は何をすればいいですか？",
-                  "backend_development": "バックエンド開発 (Bakkuendo kaihatsu)",
+                  "backend_development": "バックエンド開発",
                   "backend_development_desc": "Ruby on Railsで10年以上の経験を持ち、スケーラブルで効率的なサーバーサイドソリューションの構築に優れています。",
                   "api_development": "API 開発",
                   "api_development_desc": "Ruby on RailsとFastAPIを使用して、堅牢なAPIを構築する豊富な経験があり、両フレームワークの強固な基盤を持っています。",
