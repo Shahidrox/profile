@@ -304,7 +304,7 @@ $(window).on('load', function() {
           "arabic": {
             "translation": {
               "views": {
-                "title": "شاهِد | السيرة الذاتية"
+                "title": "شاهِد | السيرة الذاتية",
                 "available_for_hire": "أنا متاح للتوظيف!",
                 "nikname": "شاهِد",
                 "profession": "مهندس برمجيات",
