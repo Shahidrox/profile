@@ -299,7 +299,7 @@ $(window).on('load', function() {
             }
           }
         }
-      }else if (language === 'de') {
+      }else if (language === 'arabic') {
         return {
           "arabic": {
             "translation": {
