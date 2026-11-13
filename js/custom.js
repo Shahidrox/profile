@@ -314,7 +314,7 @@ $(window).on('load', function() {
                 "experience": "الخبرة",
                 "hello": "مرحبًا!",
                 "name": "أنا شاهِد إقبال.",
-                "intro": "بصفتي محترفًا مكرسًا، أنا فخور بأخلاقيات العمل القوية التي أتمتع بها وحرصي الدائم على تحسين الذات. بفضل سجلّي في الالتزام بالمواعيد ونهج استباقي في التعلم، أُشجّع بيئة عمل إيجابية وتعاونية. أبرع في العمل بشكل مستقل وكجزء من فريق، وأزدهر في البيئات سريعة الوتيرة. تجعلني مهاراتي الفعّالة في التواصل وحل المشكلات ماهرًا في الاستماع وحل التحديات بحس tact وبدوافع متنوعة وشغف بالتعلم.",
+                "intro": "بصفتي محترفًا مكرسًا، أنا فخور بأخلاقيات العمل القوية التي أتمتع بها وحرصي الدائم على تحسين الذات. بفضل سجلّي في الالتزام بالمواعيد ونهج استباقي في التعلم، أُشجّع بيئة عمل إيجابية وتعاونية. أبرع في العمل بشكل مستقل وكجزء من فريق، وأزدهر في البيئات سريعة الوتيرة. تجعلني مهاراتي الفعّالة في التواصل وحل المشكلات ماهرًا في الاستماع وحل التحديات بلباقة وبدوافع متنوعة وشغف بالتعلم.",
                 "thankyou": "شكرًا لوقتك. أتطلع إلى التواصل معك.",
                 "view_works": "عرض الأعمال",
                 "who_am_i": "من أنا؟",
@@ -333,7 +333,6 @@ $(window).on('load', function() {
                 "front_end_development": "تطوير الواجهة الأمامية (HTML/CSS/jQuery)",
                 "front_end_development_desc": "أتخصص في HTML وCSS وjQuery ولدي عين حريصة على تصميم واجهة المستخدم. لدي قاعدة قوية في هذه التقنيات.",
                 "python": "بايثون",
-                "ansible": "Ansible (أداة مفتوحة المصدر لأتمتة تكنولوجيا المعلومات)",
                 "ansible_desc": "الاستفادة من قدرات Ansible القوية لتبسيط عمليات إدارة البنية التحتية وأتمتة المهام عبر بيئات متنوعة.",
                 "what_do_i_do": "ماذا أفعل؟",
                 "backend_development": "تطوير الواجهة الخلفية",
@@ -408,8 +407,7 @@ $(window).on('load', function() {
                 "mean_stack": "MEAN Stack",
                 "gcp": "Google Cloud Platform (GCP)",
                 "aws": "AWS (Amazon Web Services)",
-                "ansible": "Ansible",
-                "docker": "Docker",
+                                "docker": "Docker",
                 "clean_coding": "البرمجة النظيفة",
                 "code_review": "مراجعة الشيفرة",
                 "scrum": "Scrum",
@@ -599,20 +597,21 @@ $(window).on('load', function() {
       // let file = 'locales/'+preferredLanguage+'.json'
       // loadJSON(file, function (json) {
         let json = set_translate(preferredLanguage)
-        i18next.use(i18nextBrowserLanguageDetector).init({
-          debug: true,
+        i18next.init({
+          lng: preferredLanguage,
+          debug: false,
           fallbackLng: 'us',
           resources: json
         }, (err, t) => {
           if (err) return console.error(err);
           jqueryI18next.init(i18next, $, { useOptionsAttr: true });
-          i18next.changeLanguage(preferredLanguage)
           $('html').localize();
         });
       // })
     }
 
     function setCookie(name, value, days) {
+      try { localStorage.setItem(name, value); } catch (e) {}
       let expires = "";
       if (days) {
           let date = new Date();
@@ -623,6 +622,7 @@ $(window).on('load', function() {
     }
 
     function getCookie(name) {
+      try { var saved = localStorage.getItem(name); if (saved) return saved; } catch (e) {}
       var nameEQ = name + "=";
       var ca = document.cookie.split(';');
       for (var i = 0; i < ca.length; i++) {
@@ -658,7 +658,10 @@ $(window).on('load', function() {
       $('#language-name').text(eliment.text())
       $('#language-icon').attr('title', preferredLanguage);
       $('#language-icon').removeClass();
-      $('#language-icon').addClass('fi fi-'+ preferredLanguage);
+      var flagMap = { arabic: 'arab' };
+      $('#language-icon').addClass('fi fi-'+ (flagMap[preferredLanguage] || preferredLanguage));
+      $('html').attr('lang', preferredLanguage === 'jp' ? 'ja' : preferredLanguage === 'arabic' ? 'ar' : preferredLanguage === 'us' ? 'en' : preferredLanguage)
+        .attr('dir', preferredLanguage === 'arabic' ? 'rtl' : 'ltr');
 
       translate_menu(preferredLanguage)
     }
